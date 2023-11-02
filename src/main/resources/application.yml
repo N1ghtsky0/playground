@@ -1,13 +1,16 @@
 server:
-  port: 9090
+  port: 8080
 
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:13306/playground
+    jdbc-url: jdbc:mysql://localhost:13306/playground
     username: root
     password: 1234
   mvc:
     view:
       prefix: /WEB-INF/views/
       suffix: .jsp
+mybatis:
+  type-aliases-package: kim.jiwook.playground.vo
+  mapper-locations: classpath:/mapper/*.xml
