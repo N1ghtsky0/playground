@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kim.jiwook.playground.mapper.BoardMapper">
+
+    <insert id="insertBoard" parameterType="BoardVO">
+        insert into board(board_title, board_content, board_author, created_at, updated_at)
+        VALUES (#{title}, #{content}, #{author}, now(), default)
+    </insert>
+
+    <select id="selectAllBoard" resultType="BoardVO">
+        select board_seq, board_title, board_content, board_author
+        from board
+    </select>
+
+    <select id="selectBoardBySeq" parameterType="BoardVO" resultType="BoardVO">
+        select board_seq, board_title, board_content, board_author
+        from board
+        where board_seq = #{seq}
+    </select>
+
+</mapper>
