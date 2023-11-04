@@ -1,4 +1,4 @@
-package kim.jiwook.playground.restController;
+package kim.jiwook.playground.controller.restController;
 
 import kim.jiwook.playground.service.MainService;
 import kim.jiwook.playground.vo.MainVO;
