@@ -3,6 +3,7 @@
 <mapper namespace="kim.jiwook.playground.mapper.MainMapper">
 
     <insert id="insertMain" parameterType="MainVO">
+        /* QueryID = insertMain */
         insert into main(title, content, created_at, updated_at)
         values (#{title}, #{content}, now(), default)
     </insert>
