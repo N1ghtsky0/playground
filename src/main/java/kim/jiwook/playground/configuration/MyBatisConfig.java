@@ -24,6 +24,8 @@ public class MyBatisConfig {
     @Value("${mybatis.type-aliases-package}")
     String typeAliasesPackage;
 
+    final String mybatisConfigPath = "classpath:/mybatis-config.xml";
+
     @Bean(name = "dataSource")
     @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource dataSource() {
@@ -37,6 +39,7 @@ public class MyBatisConfig {
         sqlSessionFactoryBean.setDataSource(dataSource);
         sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources(mapperPath));
         sqlSessionFactoryBean.setTypeAliasesPackage(typeAliasesPackage);
+        sqlSessionFactoryBean.setConfigLocation(applicationContext.getResource(mybatisConfigPath));
         return sqlSessionFactoryBean.getObject();
     }
 

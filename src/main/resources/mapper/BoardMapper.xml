@@ -10,13 +10,13 @@
 
     <select id="selectAllBoard" resultType="BoardVO">
         /* QueryID = selectAllBoard */
-        select seq, title, content, author, created_at as createdAt
+        select seq, title, content, author, created_at
         from board
     </select>
 
     <select id="selectBoardBySeq" parameterType="BoardVO" resultType="BoardVO">
         /* QueryID = selectBoardBySeq */
-        select seq, title, content, author, created_at as createdAt
+        select seq, title, content, author, created_at
         from board
         where seq = #{seq}
     </select>
