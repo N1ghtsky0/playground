@@ -12,5 +12,7 @@
 </head>
 <body>
 <h1>메인 페이지</h1>
+<br>
+<a href="/board/list">게시글 목록</a>
 </body>
 </html>

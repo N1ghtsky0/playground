@@ -1,0 +1,28 @@
+package kim.jiwook.playground.controller;
+
+import kim.jiwook.playground.service.BoardService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.sql.SQLException;
+
+@Controller
+@RequiredArgsConstructor
+@Slf4j
+public class BoardController {
+    private final BoardService boardService;
+
+    @RequestMapping("/board/list")
+    public String boardListPage(HttpServletRequest httpServletRequest, Model model) throws IOException, SQLException {
+        log.info(httpServletRequest.getRequestURI());
+
+        model.addAttribute("boardVOList", boardService.selectAllBoard());
+        return "/board/list";
+    }
+
+}
