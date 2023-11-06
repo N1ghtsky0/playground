@@ -17,6 +17,15 @@ import java.sql.SQLException;
 public class BoardController {
     private final BoardService boardService;
 
+    /**
+     * 게시글 작성 페이지
+     *
+     * @param httpServletRequest HttpServletRequest
+     * @param model Model
+     * @return /board/list
+     * @throws IOException
+     * @throws SQLException
+     */
     @RequestMapping("/board/list")
     public String boardListPage(HttpServletRequest httpServletRequest, Model model) throws IOException, SQLException {
         log.info(httpServletRequest.getRequestURI());

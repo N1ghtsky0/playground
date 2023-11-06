@@ -20,6 +20,13 @@ import java.sql.SQLException;
 public class RestMainController {
     private final MainService mainService;
 
+    /**
+     *
+     * @param mainVO MainVO
+     * @return ResponseEntity 글이 저장되면 1, 저장되지 않으면 0
+     * @throws IOException
+     * @throws SQLException
+     */
     @PostMapping("/main")
     public ResponseEntity<?> RestfulInsertMain(@RequestBody MainVO mainVO) throws IOException, SQLException {
         return ResponseEntity.ok(mainService.insertMain(mainVO));
