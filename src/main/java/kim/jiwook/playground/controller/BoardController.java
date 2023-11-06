@@ -1,6 +1,7 @@
 package kim.jiwook.playground.controller;
 
 import kim.jiwook.playground.service.BoardService;
+import kim.jiwook.playground.vo.BoardVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,36 @@ public class BoardController {
 
         model.addAttribute("boardVOList", boardService.selectAllBoard());
         return "/board/list";
+    }
+
+    /**
+     * 게시글 작성 페이지
+     *
+     * @param httpServletRequest HttpServletRequest
+     * @return /board/insert
+     */
+    @RequestMapping("/board/insert")
+    public String boardInsertPage(HttpServletRequest httpServletRequest) {
+        log.info(httpServletRequest.getRequestURI());
+
+        return "/board/insert";
+    }
+
+    /**
+     * 게시글 등록
+     *
+     * @param httpServletRequest HttpServletRequest
+     * @param boardVO BoardVO
+     * @return redirect:/board/list
+     * @throws IOException
+     * @throws SQLException
+     */
+    @RequestMapping("/board/insertProcess")
+    public String boardInsertProcess(HttpServletRequest httpServletRequest, BoardVO boardVO) throws IOException, SQLException {
+        log.info(httpServletRequest.getRequestURI());
+
+        boardService.insertBoard(boardVO);
+        return "redirect:/board/list";
     }
 
 }

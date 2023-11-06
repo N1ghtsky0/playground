@@ -18,6 +18,9 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public int insertBoard(BoardVO vo) throws IOException, SQLException {
+        if (vo.getAuthor().isEmpty()) {
+            vo.setAuthor("anonymous");
+        }
         return boardMapper.insertBoard(vo);
     }
 
