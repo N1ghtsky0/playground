@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,7 @@ public class BoardController {
     private final BoardService boardService;
 
     /**
-     * 게시글 작성 페이지
+     * 게시글 목록 페이지
      *
      * @param httpServletRequest HttpServletRequest
      * @param model Model
@@ -63,6 +64,26 @@ public class BoardController {
 
         boardService.insertBoard(boardVO);
         return "redirect:/board/list";
+    }
+
+    /**
+     * 게시글 상세조회 페이지
+     *
+     * @param httpServletRequest HttpServletRequest
+     * @param seq 게시글 시퀀스
+     * @param model Model
+     * @return /board/detail
+     * @throws IOException
+     * @throws SQLException
+     */
+    @RequestMapping("/board/detail/{seq}")
+    public String boardDetailPage(HttpServletRequest httpServletRequest,
+                                  @PathVariable("seq") String seq,
+                                  Model model) throws IOException, SQLException {
+        log.info(httpServletRequest.getRequestURI());
+
+        model.addAttribute("BoardVO", boardService.selectBoardBySeq(Long.parseLong(seq)));
+        return "/board/detail";
     }
 
 }

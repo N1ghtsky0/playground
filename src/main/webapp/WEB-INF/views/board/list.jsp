@@ -21,6 +21,12 @@
 <body>
 <h3>게시글 목록 페이지</h3>
 <table id="boardListTable">
+  <colgroup>
+    <col style="width: 5%">
+    <col style="width: 20%">
+    <col style="width: 10%">
+    <col style="width: 10%">
+  </colgroup>
   <tr>
     <th>게시글 번호</th>
     <th>제목</th>
@@ -32,7 +38,11 @@
       <c:forEach items="${boardVOList}" var="boardVO">
         <tr>
           <td>${boardVO.seq}</td>
-          <td>${boardVO.title}</td>
+          <td>
+            <div>
+              <a href="/board/detail/${boardVO.seq}">${boardVO.title}</a>
+            </div>
+          </td>
           <td>${boardVO.author}</td>
           <td>
             <fmt:parseDate value="${boardVO.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
