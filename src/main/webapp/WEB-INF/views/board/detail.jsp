@@ -13,12 +13,12 @@
 <head>
     <jsp:include page="../common/header.jsp" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="<c:url value="/css/boardList.css"/>" rel="stylesheet" />
+    <link href="<c:url value="/css/board.css"/>" rel="stylesheet" />
 </head>
 <body>
 <jsp:include page="../common/navbar.jsp"/>
 <!-- Page content-->
-<div class="container mt-5">
+<div class="container mt-5" id="wrapper">
     <div class="row">
         <div class="col-lg-8">
             <!-- Post content-->

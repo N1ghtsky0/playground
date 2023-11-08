@@ -13,7 +13,7 @@
 <head>
   <jsp:include page="../common/header.jsp" />
   <!-- Core theme CSS (includes Bootstrap)-->
-  <link href="<c:url value="/css/boardList.css"/>" rel="stylesheet" />
+  <link href="<c:url value="/css/board.css"/>" rel="stylesheet" />
 </head>
 <body>
 <jsp:include page="../common/navbar.jsp"/>
@@ -27,7 +27,7 @@
   </div>
 </header>
 <!-- Page content-->
-<div class="container">
+<div class="container" id="wrapper">
   <div class="row">
     <!-- Blog entries-->
     <div class="col-lg-8">
@@ -66,18 +66,23 @@
         </c:choose>
       </div>
       <!-- Pagination-->
-      <nav aria-label="Pagination">
+      <div class="row">
         <hr class="my-0" />
-        <ul class="pagination justify-content-center my-4">
-          <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Newer</a></li>
-          <li class="page-item active" aria-current="page"><a class="page-link" href="#!">1</a></li>
-          <li class="page-item"><a class="page-link" href="#!">2</a></li>
-          <li class="page-item"><a class="page-link" href="#!">3</a></li>
-          <li class="page-item disabled"><a class="page-link" href="#!">...</a></li>
-          <li class="page-item"><a class="page-link" href="#!">15</a></li>
-          <li class="page-item"><a class="page-link" href="#!">Older</a></li>
-        </ul>
-      </nav>
+        <nav aria-label="Pagination" class="col-10">
+          <ul class="pagination justify-content-center my-4">
+            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Newer</a></li>
+            <li class="page-item active" aria-current="page"><a class="page-link" href="#!">1</a></li>
+            <li class="page-item"><a class="page-link" href="#!">2</a></li>
+            <li class="page-item"><a class="page-link" href="#!">3</a></li>
+            <li class="page-item disabled"><a class="page-link" href="#!">...</a></li>
+            <li class="page-item"><a class="page-link" href="#!">15</a></li>
+            <li class="page-item"><a class="page-link" href="#!">Older</a></li>
+          </ul>
+        </nav>
+        <div class="col-auto" align="right">
+          <a class="btn btn-primary" href="/board/insert">글 쓰기</a>
+        </div>
+      </div>
     </div>
     <jsp:include page="../common/sidewidget.jsp"/>
   </div>
