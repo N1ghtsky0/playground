@@ -82,7 +82,7 @@ public class BoardController {
                                   Model model) throws IOException, SQLException {
         log.info(httpServletRequest.getRequestURI());
 
-        model.addAttribute("BoardVO", boardService.selectBoardBySeq(Long.parseLong(seq)));
+        model.addAttribute("boardVO", boardService.selectBoardBySeq(Long.parseLong(seq)));
         return "/board/detail";
     }
 
