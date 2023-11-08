@@ -19,17 +19,17 @@
   <!-- Favicon-->
   <link rel="icon" type="image/x-icon" href="<c:url value="/assets/favicon.ico"/>" />
   <!-- Core theme CSS (includes Bootstrap)-->
-  <link href="<c:url value="css/styles.css"/>" rel="stylesheet" />
+  <link href="<c:url value="/css/boardList.css"/>" rel="stylesheet" />
 </head>
 <body>
 <!-- Responsive navbar-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
-    <a class="navbar-brand" href="#!">Start Bootstrap</a>
+    <a class="navbar-brand" href="/">Start Bootstrap</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
         <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
         <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Blog</a></li>
@@ -53,32 +53,19 @@
     <div class="col-lg-8">
       <!-- Nested row for non-featured blog posts-->
       <div class="row">
-        <c:forEach begin="0" end="${boardVOList.size() - 1}" step="2" varStatus="status">
+        <c:forEach items="${boardVOList}" var="boardVO">
           <div class="col-lg-6">
             <!-- Blog post-->
             <div class="card mb-4">
               <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
               <div class="card-body">
                 <div class="small text-muted">
-                  <fmt:parseDate value="${boardVOList.get(status.index).createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
+                  <fmt:parseDate value="${boardVO.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
                   <fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${parsedDateTime}" />
                 </div>
-                <h2 class="card-title h4">${boardVOList.get(status.index).title}</h2>
-                <p class="card-text">${boardVOList.get(status.index).content}</p>
-                <a class="btn btn-primary" href="/board/detail/${boardVOList.get(status.index).createdAt}">Read more →</a>
-              </div>
-            </div>
-            <!-- Blog post-->
-            <div class="card mb-4">
-              <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
-              <div class="card-body">
-                <div class="small text-muted">
-                  <fmt:parseDate value="${boardVOList.get(status.index + 1).createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
-                  <fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${parsedDateTime}" />
-                </div>
-                <h2 class="card-title h4">${boardVOList.get(status.index + 1).title}</h2>
-                <p class="card-text">${boardVOList.get(status.index + 1).content}</p>
-                <a class="btn btn-primary" href="/board/detail/${boardVOList.get(status.index + 1).seq}">Read more →</a>
+                <h2 class="card-title h4">${boardVO.title}</h2>
+                <p class="card-text">${boardVO.content}</p>
+                <a class="btn btn-primary" href="/board/detail/${boardVO.seq}">Read more →</a>
               </div>
             </div>
           </div>
@@ -147,6 +134,6 @@
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
-<script src="<c:url value="js/scripts.js"/>"></script>
+<script src="<c:url value="/js/boardList.js"/>"></script>
 </body>
 </html>
