@@ -33,23 +33,37 @@
     <div class="col-lg-8">
       <!-- Nested row for non-featured blog posts-->
       <div class="row">
-        <c:forEach items="${boardVOList}" var="boardVO">
-          <div class="col-lg-6">
-            <!-- Blog post-->
-            <div class="card mb-4">
-              <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
-              <div class="card-body">
-                <div class="small text-muted">
-                  <fmt:parseDate value="${boardVO.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
-                  <fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${parsedDateTime}" />
+        <c:choose>
+          <c:when test="${boardVOList.size() > 0}">
+            <c:forEach items="${boardVOList}" var="boardVO">
+              <div class="col-lg-6">
+                <!-- Blog post-->
+                <div class="card mb-4">
+                  <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
+                  <div class="card-body">
+                    <div class="small text-muted">
+                      <fmt:parseDate value="${boardVO.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
+                      <fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${parsedDateTime}" />
+                    </div>
+                    <h2 class="card-title h4">${boardVO.title}</h2>
+                    <p class="card-text">${boardVO.content}</p>
+                    <a class="btn btn-primary" href="/board/detail/${boardVO.seq}">Read more →</a>
+                  </div>
                 </div>
-                <h2 class="card-title h4">${boardVO.title}</h2>
-                <p class="card-text">${boardVO.content}</p>
-                <a class="btn btn-primary" href="/board/detail/${boardVO.seq}">Read more →</a>
+              </div>
+            </c:forEach>
+          </c:when>
+          <c:otherwise>
+            <div class="py-5 mb-4">
+              <div class="container">
+                <div class="text-center my-5">
+                  <h2 class="fw-bolder">작성된 글이 없습니다.</h2>
+                  <a href="/board/insert" class="btn btn-primary">글 작성하러 가기 →</a>
+                </div>
               </div>
             </div>
-          </div>
-        </c:forEach>
+          </c:otherwise>
+        </c:choose>
       </div>
       <!-- Pagination-->
       <nav aria-label="Pagination">
