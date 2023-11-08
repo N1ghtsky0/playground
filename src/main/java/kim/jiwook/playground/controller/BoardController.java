@@ -33,6 +33,7 @@ public class BoardController {
         log.info(httpServletRequest.getRequestURI());
 
         model.addAttribute("boardVOList", boardService.selectAllBoard());
+        model.addAttribute("tab", "blog");
         return "/board/list";
     }
 
@@ -43,9 +44,10 @@ public class BoardController {
      * @return /board/insert
      */
     @RequestMapping("/board/insert")
-    public String boardInsertPage(HttpServletRequest httpServletRequest) {
+    public String boardInsertPage(HttpServletRequest httpServletRequest, Model model) {
         log.info(httpServletRequest.getRequestURI());
 
+        model.addAttribute("tab", "blog");
         return "/board/insert";
     }
 
@@ -83,6 +85,7 @@ public class BoardController {
         log.info(httpServletRequest.getRequestURI());
 
         model.addAttribute("boardVO", boardService.selectBoardBySeq(Long.parseLong(seq)));
+        model.addAttribute("tab", "blog");
         return "/board/detail";
     }
 
