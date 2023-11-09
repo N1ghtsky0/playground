@@ -1,7 +1,7 @@
 package kim.jiwook.playground.controller;
 
 import kim.jiwook.playground.service.BoardService;
-import kim.jiwook.playground.vo.BoardVO;
+import kim.jiwook.playground.vo.request.RequestInsertBoard;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -55,16 +55,16 @@ public class BoardController {
      * 게시글 등록
      *
      * @param httpServletRequest HttpServletRequest
-     * @param boardVO BoardVO
+     * @param requestVO RequestInsertBoard
      * @return redirect:/board/list
      * @throws IOException
      * @throws SQLException
      */
     @RequestMapping("/board/insertProcess")
-    public String boardInsertProcess(HttpServletRequest httpServletRequest, BoardVO boardVO) throws IOException, SQLException {
+    public String boardInsertProcess(HttpServletRequest httpServletRequest, RequestInsertBoard requestVO) throws IOException, SQLException {
         log.info(httpServletRequest.getRequestURI());
 
-        boardService.insertBoard(boardVO);
+        boardService.insertBoard(requestVO);
         return "redirect:/board/list";
     }
 
