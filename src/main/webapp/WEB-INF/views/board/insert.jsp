@@ -14,17 +14,29 @@
 </head>
 <body>
 <jsp:include page="../common/navbar.jsp"/>
-<div class="container" id="wrapper">
-    <h1>게시글 작성</h1>
-    <form method="post" name="frm" id="frm" >
-        <label for="title">제목: </label><input type="text" name="title" id="title">
-        <br>
-        <label for="content">내용: </label><input type="text" name="content" id="content">
-        <br>
-        <label for="author">작가: </label><input type="text" name="author" id="author">
-        <br>
-        <button type="submit" name="summitBtn" id="summitBtn" disabled>저장</button>
-    </form>
+<div class="container-md h-75 my-5" id="wrapper">
+    <main class="w-100 m-auto card">
+        <h1 class="h3 mb-3 fw-normal card-header">게시글 작성</h1>
+        <form method="post" name="frm" id="frm" class="card-body">
+            <div class="mb-3">
+                <label for="title" class="form-label">제목: </label>
+                <input class="form-control" type="text" name="title" id="title" placeholder="제목을 입력하세요.">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="content">내용: </label>
+                <textarea class="form-control" name="content" id="content" placeholder="내용을 입력하세요." rows="5" ></textarea>
+            </div>
+            <div class="mb-3 row">
+                <label for="author" class="col-sm-1 col-form-label">작성자: </label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" id="author" value="anonymous">
+                </div>
+                <div class="col-sm-1" align="right">
+                    <button type="submit" class="btn btn-primary col-auto" name="summitBtn" id="summitBtn" disabled>저장</button>
+                </div>
+            </div>
+        </form>
+    </main>
 </div>
 <jsp:include page="../common/footer.jsp" />
 </body>
