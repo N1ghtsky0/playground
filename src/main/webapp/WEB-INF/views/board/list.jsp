@@ -11,9 +11,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+  <title>Blog Post - Start Bootstrap Template</title>
   <jsp:include page="../common/header.jsp" />
-  <!-- Core theme CSS (includes Bootstrap)-->
-  <link href="<c:url value="/css/board.css"/>" rel="stylesheet" />
 </head>
 <body>
 <jsp:include page="../common/navbar.jsp"/>
@@ -79,7 +78,7 @@
             <li class="page-item"><a class="page-link" href="#!">Older</a></li>
           </ul>
         </nav>
-        <div class="col-auto" align="right">
+        <div class="col-auto my-4">
           <a class="btn btn-primary" href="/board/insert">글 쓰기</a>
         </div>
       </div>
@@ -88,9 +87,5 @@
   </div>
 </div>
 <jsp:include page="../common/footer.jsp" />
-<!-- Bootstrap core JS-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Core theme JS-->
-<script src="<c:url value="/js/boardList.js"/>"></script>
 </body>
 </html>

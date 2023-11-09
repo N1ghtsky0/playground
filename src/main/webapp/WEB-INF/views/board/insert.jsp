@@ -9,9 +9,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
+    <title>Blog Post - Start Bootstrap Template</title>
     <jsp:include page="../common/header.jsp" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link href="<c:url value="/css/board.css"/>" rel="stylesheet" />
 </head>
 <body>
 <jsp:include page="../common/navbar.jsp"/>
@@ -28,7 +27,6 @@
     </form>
 </div>
 <jsp:include page="../common/footer.jsp" />
-<script src="<c:url value="/js/boardList.js"/>"></script>
 </body>
 <script type="text/javascript">
     $("#title").keyup(function () {
