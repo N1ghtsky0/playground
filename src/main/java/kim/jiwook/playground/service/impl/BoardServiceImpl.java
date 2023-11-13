@@ -1,5 +1,6 @@
 package kim.jiwook.playground.service.impl;
 
+import kim.jiwook.playground.configuration.exception.CustomException;
 import kim.jiwook.playground.mapper.BoardMapper;
 import kim.jiwook.playground.service.BoardService;
 import kim.jiwook.playground.vo.BoardVO;
@@ -14,6 +15,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static kim.jiwook.playground.configuration.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -44,7 +47,7 @@ public class BoardServiceImpl implements BoardService {
         BoardVO boardVO = new BoardVO();
         boardVO.setSeq(seq);
 
-        return modelMapper.map(boardMapper.selectBoardBySeq(boardVO), ResponseSelectBoardBySeq.class);
+        return modelMapper.map(boardMapper.selectBoardBySeq(boardVO).orElseThrow(() -> new CustomException(NOT_FOUND_BOARD)), ResponseSelectBoardBySeq.class);
     }
 
 }

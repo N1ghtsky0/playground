@@ -6,12 +6,13 @@ import org.apache.ibatis.annotations.Mapper;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface BoardMapper {
 
     int insertBoard(BoardVO vo) throws IOException, SQLException;
     List<BoardVO> selectAllBoard() throws IOException, SQLException;
-    BoardVO selectBoardBySeq(BoardVO vo) throws IOException, SQLException;
+    Optional<BoardVO> selectBoardBySeq(BoardVO vo) throws IOException, SQLException;
 
 }
