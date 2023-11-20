@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `main` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- playground.board definition
-CREATE TABLE `board` (
+CREATE TABLE IF NOT EXISTS `board` (
                          `seq` bigint NOT NULL AUTO_INCREMENT COMMENT '게시글 시퀀스',
                          `title` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '게시글 제목',
                          `content` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '게시글 내용',
