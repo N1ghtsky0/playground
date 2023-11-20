@@ -29,7 +29,7 @@ public class RestBoardController {
      * @throws SQLException
      */
     @PostMapping("/board")
-    public ResponseEntity<Integer> restfulInsertBoard(@RequestBody RequestInsertBoard requestVO) throws IOException, SQLException {
+    public ResponseEntity<Long> restfulInsertBoard(@RequestBody RequestInsertBoard requestVO) throws IOException, SQLException {
         return ResponseEntity.ok(boardService.insertBoard(requestVO));
     }
 

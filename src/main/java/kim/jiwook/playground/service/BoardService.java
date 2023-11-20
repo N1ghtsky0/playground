@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface BoardService {
 
-    int insertBoard(RequestInsertBoard vo) throws IOException, SQLException;
+    long insertBoard(RequestInsertBoard vo) throws IOException, SQLException;
     List<ResponseSelectAllBoard> selectAllBoard() throws IOException, SQLException;
     ResponseSelectBoardBySeq selectBoardBySeq(long seq) throws IOException, SQLException;
 

@@ -1,5 +1,6 @@
 package kim.jiwook.playground.Entity;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,9 +20,16 @@ public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long seq;
+
+    @NotNull
     private String title;
+
+    @NotNull
     private String content;
+
+    @NotNull
     private String author;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
