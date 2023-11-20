@@ -11,6 +11,13 @@ spring:
     jdbc-url: jdbc:log4jdbc:mysql://db-mysql:3306/playground
     username: root
     password: 1234
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: false
+    hibernate:
+      ddl-auto: update
   mvc:
     view:
       prefix: /WEB-INF/views/
