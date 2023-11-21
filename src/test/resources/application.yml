@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    jdbc-url: jdbc:log4jdbc:mysql://db-mysql:3306/playground_test
+    username: root
+    password: 1234
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: false
+    hibernate:
+      ddl-auto: create
+
+mybatis:
+  type-aliases-package: kim.jiwook.playground.vo
+  mapper-locations: classpath:/mapper/*.xml
+logging:
+  level:
+    jdbc:
+      sqlonly: off
+      sqltiming: info
+      audit: off
+      resultset: off
+      resultsettable: info
+      connection: off
