@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -29,7 +30,7 @@ public class RestBoardController {
      * @throws SQLException
      */
     @PostMapping("/board")
-    public ResponseEntity<Long> restfulInsertBoard(@RequestBody RequestInsertBoard requestVO) throws IOException, SQLException {
+    public ResponseEntity<Long> restfulInsertBoard(@Valid @RequestBody RequestInsertBoard requestVO) throws IOException, SQLException {
         return ResponseEntity.ok(boardService.insertBoard(requestVO));
     }
 
