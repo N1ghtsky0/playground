@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
-public class RequestSignIn {
+public class RequestSignUp {
 
     @NotNull
     @Size(min = 8, max = 20)
