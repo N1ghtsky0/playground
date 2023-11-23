@@ -40,7 +40,7 @@ public class AccountServiceImpl implements AccountService {
         Account account = accountRepo.findAccountByLoginId(request.getLoginId())
                 .filter(it -> encoder.matches(request.getLoginPwd(), it.getLoginPwd()))
                 .orElseThrow(() -> new CustomException(BAD_REQUEST_LOGIN));
-        String token = tokenProvider.createToken(account.getUuid());
+        String token = tokenProvider.createToken(String.format("%s:%s", account.getUuid(), account.getType()));
 
         return ResponseLogin.builder()
                 .token(token)

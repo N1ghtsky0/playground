@@ -4,10 +4,7 @@ import kim.jiwook.playground.vo.request.RequestSignUp;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
@@ -30,11 +27,19 @@ public class Account {
 
     private String uuid;
 
+    @Enumerated(EnumType.STRING)
+    private AccountType type;
+
     public static Account from(RequestSignUp request, PasswordEncoder encoder) {
         return Account.builder()
                 .loginId(request.getLoginId())
                 .loginPwd(encoder.encode(request.getLoginPwd()))
                 .uuid(UUID.randomUUID().toString())
+                .type(AccountType.USER)
                 .build();
     }
+}
+
+enum AccountType {
+    USER, ADMIN
 }

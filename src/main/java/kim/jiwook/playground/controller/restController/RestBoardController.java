@@ -1,5 +1,6 @@
 package kim.jiwook.playground.controller.restController;
 
+import kim.jiwook.playground.common.UserAuthorize;
 import kim.jiwook.playground.service.BoardService;
 import kim.jiwook.playground.vo.request.RequestInsertBoard;
 import kim.jiwook.playground.vo.response.ResponseSelectAllBoard;
@@ -30,6 +31,7 @@ public class RestBoardController {
      * @throws SQLException
      */
     @PostMapping("/board")
+    @UserAuthorize
     public ResponseEntity<Long> restfulInsertBoard(@Valid @RequestBody RequestInsertBoard requestVO) throws IOException, SQLException {
         return ResponseEntity.ok(boardService.insertBoard(requestVO));
     }

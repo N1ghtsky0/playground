@@ -1,5 +1,6 @@
 package kim.jiwook.playground.controller;
 
+import kim.jiwook.playground.common.UserAuthorize;
 import kim.jiwook.playground.service.BoardService;
 import kim.jiwook.playground.vo.request.RequestInsertBoard;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +45,7 @@ public class BoardController {
      * @return /board/insert
      */
     @RequestMapping("/board/insert")
+    @UserAuthorize
     public String boardInsertPage(HttpServletRequest httpServletRequest, Model model) {
         log.info(httpServletRequest.getRequestURI());
 
@@ -61,6 +63,7 @@ public class BoardController {
      * @throws SQLException
      */
     @RequestMapping("/board/insertProcess")
+    @UserAuthorize
     public String boardInsertProcess(HttpServletRequest httpServletRequest, RequestInsertBoard requestVO) throws IOException, SQLException {
         log.info(httpServletRequest.getRequestURI());
 
