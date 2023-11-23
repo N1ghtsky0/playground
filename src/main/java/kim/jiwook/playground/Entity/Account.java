@@ -1,5 +1,6 @@
 package kim.jiwook.playground.Entity;
 
+import kim.jiwook.playground.common.BaseTimeEntity;
 import kim.jiwook.playground.vo.request.RequestSignUp;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class Account {
+public class Account extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,21 +1,20 @@
 package kim.jiwook.playground.Entity;
 
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import kim.jiwook.playground.common.BaseTimeEntity;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Board {
+public class Board extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,8 +28,5 @@ public class Board {
 
     @NotNull
     private String author;
-
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
 }
