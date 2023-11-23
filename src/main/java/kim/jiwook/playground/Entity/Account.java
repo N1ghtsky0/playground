@@ -1,6 +1,6 @@
 package kim.jiwook.playground.Entity;
 
-import kim.jiwook.playground.vo.request.RequestSignIn;
+import kim.jiwook.playground.vo.request.RequestSignUp;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -30,7 +30,7 @@ public class Account {
 
     private String uuid;
 
-    public static Account from(RequestSignIn request, PasswordEncoder encoder) {
+    public static Account from(RequestSignUp request, PasswordEncoder encoder) {
         return Account.builder()
                 .loginId(request.getLoginId())
                 .loginPwd(encoder.encode(request.getLoginPwd()))

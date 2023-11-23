@@ -14,6 +14,7 @@ public enum ErrorCode {
 
     // account
     DUPLICATED_LOGIN_ID("이미 가입된 로그인 아이디입니다.", BAD_REQUEST),
+    BAD_REQUEST_LOGIN("아이디 또는 비밀번호가 틀렸습니다", BAD_REQUEST),
     ;
 
     private final String message;

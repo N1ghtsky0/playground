@@ -35,3 +35,8 @@ logging:
       resultset: off
       resultsettable: info
       connection: off
+
+jwt:
+  secret-key: 38722cd30c9edef93825c6589c4a9b592cfca0c33c3b0a4aca9c6f42eb072fd047e5864786eff74a9ab58d531f48be73da9d87bd5c99be26c5873fe14ca88224
+  expiration-hours: 1
+  issuer: playground
