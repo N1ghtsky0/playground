@@ -4,10 +4,7 @@ import com.sun.istack.NotNull;
 import kim.jiwook.playground.common.BaseTimeEntity;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -29,4 +26,10 @@ public class Board extends BaseTimeEntity {
     @NotNull
     private String author;
 
+    @ManyToOne
+    private Account account;
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 }
