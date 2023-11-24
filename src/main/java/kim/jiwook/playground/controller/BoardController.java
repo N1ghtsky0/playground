@@ -5,6 +5,8 @@ import kim.jiwook.playground.service.BoardService;
 import kim.jiwook.playground.vo.request.RequestInsertBoard;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,10 +66,11 @@ public class BoardController {
      */
     @RequestMapping("/board/insertProcess")
     @UserAuthorize
-    public String boardInsertProcess(HttpServletRequest httpServletRequest, RequestInsertBoard requestVO) throws IOException, SQLException {
+    public String boardInsertProcess(HttpServletRequest httpServletRequest, RequestInsertBoard requestVO,
+                                     @AuthenticationPrincipal User user) throws IOException, SQLException {
         log.info(httpServletRequest.getRequestURI());
 
-        boardService.insertBoard(requestVO);
+        boardService.insertBoard(requestVO, user);
         return "redirect:/board/list";
     }
 

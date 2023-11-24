@@ -8,6 +8,8 @@ import kim.jiwook.playground.vo.response.ResponseSelectBoardBySeq;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,8 +34,9 @@ public class RestBoardController {
      */
     @PostMapping("/board")
     @UserAuthorize
-    public ResponseEntity<Long> restfulInsertBoard(@Valid @RequestBody RequestInsertBoard requestVO) throws IOException, SQLException {
-        return ResponseEntity.ok(boardService.insertBoard(requestVO));
+    public ResponseEntity<Long> restfulInsertBoard(@AuthenticationPrincipal User user,
+                                                   @Valid @RequestBody RequestInsertBoard requestVO) throws IOException, SQLException {
+        return ResponseEntity.ok(boardService.insertBoard(requestVO, user));
     }
 
     /**
