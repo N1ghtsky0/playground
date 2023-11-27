@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 public class SecurityConfig {
     private final JsonWebTokenAuthenticationFilter authenticationFilter;
 
-    private final String[] ALLOWED_URLS = {"/"};
+    private final String[] ALLOWED_URLS = {"/", "/error"};
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -25,7 +25,8 @@ public class SecurityConfig {
                 .csrf().disable()
                 .headers(header -> header.frameOptions().sameOrigin())
                 .authorizeHttpRequests(request ->
-                        request.antMatchers(ALLOWED_URLS).permitAll())
+                        request.antMatchers(ALLOWED_URLS).permitAll()
+                                .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(authenticationFilter, BasicAuthenticationFilter.class)
                 .build();

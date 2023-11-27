@@ -24,7 +24,7 @@
                     <a class="nav-link <c:if test="${tab eq 'blog'}">active</c:if>" href="/">Blog</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <c:if test="${tab eq 'singIn'}">active</c:if>" href="#!">sign In</a>
+                    <a class="nav-link <c:if test="${tab eq 'singIn'}">active</c:if>" href="/login">sign In</a>
                 </li>
             </ul>
         </div>
