@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Builder
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Board extends BaseTimeEntity {
@@ -29,7 +29,4 @@ public class Board extends BaseTimeEntity {
     @ManyToOne
     private Account account;
 
-    public void setAccount(Account account) {
-        this.account = account;
-    }
 }
