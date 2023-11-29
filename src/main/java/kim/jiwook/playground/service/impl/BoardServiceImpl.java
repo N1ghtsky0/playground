@@ -1,5 +1,6 @@
 package kim.jiwook.playground.service.impl;
 
+import kim.jiwook.playground.Entity.Account;
 import kim.jiwook.playground.Entity.Board;
 import kim.jiwook.playground.configuration.exception.CustomException;
 import kim.jiwook.playground.repository.AccountRepo;
@@ -29,13 +30,13 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public long insertBoard(RequestInsertBoard vo, User user) {
-        if (vo.getAuthor() == null || vo.getAuthor().isEmpty()) {
-            vo.setAuthor("anonymous");
-        }
-
         Board board = modelMapper.map(vo, Board.class);
-        board.setAccount(accountRepo.findAccountByUuid(user.getUsername())
-                .orElseThrow(() -> new CustomException(FORBIDDEN_BOARD)));
+        Account account = accountRepo.findAccountByUuid(user.getUsername())
+                .orElseThrow(() -> new CustomException(FORBIDDEN_BOARD));
+
+        String author = (account.getNickName() == null) ? "anonymous" : account.getNickName();
+        board.setAuthor(author);
+        board.setAccount(account);
 
         return boardRepo.save(board).getSeq();
     }

@@ -18,4 +18,7 @@ public class RequestSignUp {
     @Size(min = 8)
     private String loginPwd;
 
+    @Size(max = 8)
+    private String nickName;
+
 }

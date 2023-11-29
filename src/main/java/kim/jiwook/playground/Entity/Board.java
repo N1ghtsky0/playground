@@ -18,6 +18,7 @@ public class Board extends BaseTimeEntity {
     private long seq;
 
     @NotNull
+    @Column(length = 50)
     private String title;
 
     @NotNull
@@ -26,7 +27,7 @@ public class Board extends BaseTimeEntity {
     @NotNull
     private String author;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Account account;
 
 }

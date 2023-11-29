@@ -21,11 +21,16 @@ public class Account extends BaseTimeEntity {
     private long id;
 
     @NotNull
+    @Column(length = 20)
     private String loginId;
 
     @NotNull
     private String loginPwd;
 
+    @Column(length = 8)
+    private String nickName;
+
+    @Column(length = 36)
     private String uuid;
 
     @Enumerated(EnumType.STRING)
