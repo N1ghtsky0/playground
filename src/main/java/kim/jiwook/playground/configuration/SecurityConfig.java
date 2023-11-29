@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 public class SecurityConfig {
     private final JsonWebTokenAuthenticationFilter authenticationFilter;
 
-    private final String[] ALLOWED_URLS = {"/", "/error"};
+    private final String[] ALLOWED_URLS = {"/", "/error", "/login", "/**/login", "/css/**", "/js/**", "/assets/**"};
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

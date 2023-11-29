@@ -41,6 +41,12 @@ public class Account extends BaseTimeEntity {
     }
 }
 
-enum AccountType {
-    USER, ADMIN
+    @Getter
+    @AllArgsConstructor
+    public enum AccountType {
+        USER("USER"),
+        ADMIN("ADMIN");
+
+        public final String role;
+    }
 }

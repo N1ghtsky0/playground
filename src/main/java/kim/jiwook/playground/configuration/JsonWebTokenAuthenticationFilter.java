@@ -1,5 +1,8 @@
 package kim.jiwook.playground.configuration;
 
+import kim.jiwook.playground.Entity.Account;
+import kim.jiwook.playground.configuration.exception.CustomException;
+import kim.jiwook.playground.repository.AccountRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,10 +23,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
+import static kim.jiwook.playground.configuration.exception.ErrorCode.INVALID_ACCOUNT_INFO;
+
 @RequiredArgsConstructor
 @Component
 public class JsonWebTokenAuthenticationFilter extends OncePerRequestFilter {
     private final JsonWebTokenProvider tokenProvider;
+    private final AccountRepo accountRepo;
     private final String ACCESS_TOKEN_NAME = "jwt";
 
     @Override
@@ -48,12 +54,18 @@ public class JsonWebTokenAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private User parseUserSpecification(String token) {
-        String[] split = Optional.ofNullable(token)
+        String userUuid = Optional.ofNullable(token)
                 .filter(subject -> subject.length() >= 10)
                 .map(tokenProvider::validateTokenAndGetSubject)
-                .orElse("anonymous:anonymous")
-                .split(":");
+                .orElse("anonymous");
 
-        return new User(split[0], "", Collections.singletonList(new SimpleGrantedAuthority(split[1])));
+        if (userUuid.equals("anonymous")) {
+            return new User(userUuid, "", Collections.singletonList(new SimpleGrantedAuthority("ANONYMOUS")));
+        }
+
+        Account account = accountRepo.findAccountByUuid(userUuid)
+                .orElseThrow(() -> new CustomException(INVALID_ACCOUNT_INFO));
+
+        return new User(userUuid, "", Collections.singletonList(new SimpleGrantedAuthority(account.getType().getRole())));
     }
 }
