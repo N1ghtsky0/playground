@@ -190,11 +190,9 @@
     $.ajax({
         url: "/api/login",
         type: "POST",
-        dataType: "json",
         data: JSON.stringify(jsonData),
         contentType: "application/json",
-        success: function (data) {
-            window.localStorage.setItem("tk", data.token);
+        success: function () {
             window.location.href = "/";
         },
         error: function (data) {

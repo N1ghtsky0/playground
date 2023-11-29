@@ -3,8 +3,9 @@ package kim.jiwook.playground.controller.restController;
 import kim.jiwook.playground.service.AccountService;
 import kim.jiwook.playground.vo.request.RequestLogIn;
 import kim.jiwook.playground.vo.request.RequestSignUp;
-import kim.jiwook.playground.vo.response.ResponseLogin;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +27,14 @@ public class RestAccountController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ResponseLogin> restfulLogin(@Valid @RequestBody RequestLogIn request) {
-        return ResponseEntity.ok(accountService.logInProcess(request));
+    public ResponseEntity<?> restfulLogin(@Valid @RequestBody RequestLogIn request) {
+        ResponseCookie cookie = ResponseCookie.from("jwt", accountService.logInProcess(request).getToken())
+                .httpOnly(true)
+                .path("/")
+                .maxAge(60 * 60 * 24)
+                .build();
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .build();
     }
 }
