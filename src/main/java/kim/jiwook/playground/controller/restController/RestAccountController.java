@@ -1,5 +1,6 @@
 package kim.jiwook.playground.controller.restController;
 
+import kim.jiwook.playground.common.annotaion.authorizeLevel1;
 import kim.jiwook.playground.service.AccountService;
 import kim.jiwook.playground.vo.request.RequestLogIn;
 import kim.jiwook.playground.vo.request.RequestSignUp;
@@ -21,12 +22,14 @@ public class RestAccountController {
     private final AccountService accountService;
 
     @PostMapping("/sign-up")
+    @authorizeLevel1
     public ResponseEntity<?> restfulSignUp(@Valid @RequestBody RequestSignUp request) {
         accountService.createAccount(request);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/login")
+    @authorizeLevel1
     public ResponseEntity<?> restfulLogin(@Valid @RequestBody RequestLogIn request) {
         ResponseCookie cookie = ResponseCookie.from("jwt", accountService.logInProcess(request).getToken())
                 .httpOnly(true)

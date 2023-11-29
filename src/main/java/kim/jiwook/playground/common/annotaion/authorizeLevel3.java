@@ -1,4 +1,4 @@
-package kim.jiwook.playground.common;
+package kim.jiwook.playground.common.annotaion;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 

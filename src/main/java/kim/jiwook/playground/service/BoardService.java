@@ -5,14 +5,12 @@ import kim.jiwook.playground.vo.response.ResponseSelectAllBoard;
 import kim.jiwook.playground.vo.response.ResponseSelectBoardBySeq;
 import org.springframework.security.core.userdetails.User;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 public interface BoardService {
 
-    long insertBoard(RequestInsertBoard vo, User user) throws IOException, SQLException;
-    List<ResponseSelectAllBoard> selectAllBoard() throws IOException, SQLException;
-    ResponseSelectBoardBySeq selectBoardBySeq(long seq) throws IOException, SQLException;
+    long insertBoard(RequestInsertBoard vo, User user);
+    List<ResponseSelectAllBoard> selectAllBoard();
+    ResponseSelectBoardBySeq selectBoardBySeq(long seq);
 
 }

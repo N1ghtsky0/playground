@@ -6,16 +6,13 @@ import kim.jiwook.playground.vo.MainVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
 @RequiredArgsConstructor
 @Service
 public class MainServiceImpl implements MainService {
     private final MainMapper mainMapper;
 
     @Override
-    public int insertMain(MainVO vo) throws IOException, SQLException {
+    public int insertMain(MainVO vo) {
         return mainMapper.insertMain(vo);
     }
 }

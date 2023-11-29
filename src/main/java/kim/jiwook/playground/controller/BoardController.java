@@ -1,6 +1,6 @@
 package kim.jiwook.playground.controller;
 
-import kim.jiwook.playground.common.authorizeLevel1;
+import kim.jiwook.playground.common.annotaion.authorizeLevel1;
 import kim.jiwook.playground.service.BoardService;
 import kim.jiwook.playground.vo.request.RequestInsertBoard;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.sql.SQLException;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,11 +26,9 @@ public class BoardController {
      * @param httpServletRequest HttpServletRequest
      * @param model Model
      * @return /board/list
-     * @throws IOException
-     * @throws SQLException
      */
     @RequestMapping("/board/list")
-    public String boardListPage(HttpServletRequest httpServletRequest, Model model) throws IOException, SQLException {
+    public String boardListPage(HttpServletRequest httpServletRequest, Model model) {
         log.info(httpServletRequest.getRequestURI());
 
         model.addAttribute("boardVOList", boardService.selectAllBoard());
@@ -61,13 +57,11 @@ public class BoardController {
      * @param httpServletRequest HttpServletRequest
      * @param requestVO RequestInsertBoard
      * @return redirect:/board/list
-     * @throws IOException
-     * @throws SQLException
      */
     @RequestMapping("/board/insertProcess")
     @authorizeLevel1
     public String boardInsertProcess(HttpServletRequest httpServletRequest, RequestInsertBoard requestVO,
-                                     @AuthenticationPrincipal User user) throws IOException, SQLException {
+                                     @AuthenticationPrincipal User user) {
         log.info(httpServletRequest.getRequestURI());
 
         boardService.insertBoard(requestVO, user);
@@ -81,13 +75,11 @@ public class BoardController {
      * @param seq 게시글 시퀀스
      * @param model Model
      * @return /board/detail
-     * @throws IOException
-     * @throws SQLException
      */
     @RequestMapping("/board/detail/{seq}")
     public String boardDetailPage(HttpServletRequest httpServletRequest,
                                   @PathVariable("seq") String seq,
-                                  Model model) throws IOException, SQLException {
+                                  Model model) {
         log.info(httpServletRequest.getRequestURI());
 
         model.addAttribute("boardVO", boardService.selectBoardBySeq(Long.parseLong(seq)));

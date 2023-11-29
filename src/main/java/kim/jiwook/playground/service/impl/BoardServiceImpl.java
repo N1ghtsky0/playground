@@ -13,12 +13,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static kim.jiwook.playground.configuration.exception.ErrorCode.*;
+import static kim.jiwook.playground.configuration.exception.ErrorCode.FORBIDDEN_BOARD;
+import static kim.jiwook.playground.configuration.exception.ErrorCode.NOT_FOUND_BOARD;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +28,7 @@ public class BoardServiceImpl implements BoardService {
     private final ModelMapper modelMapper;
 
     @Override
-    public long insertBoard(RequestInsertBoard vo, User user) throws IOException, SQLException {
+    public long insertBoard(RequestInsertBoard vo, User user) {
         if (vo.getAuthor() == null || vo.getAuthor().isEmpty()) {
             vo.setAuthor("anonymous");
         }
@@ -42,7 +41,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public List<ResponseSelectAllBoard> selectAllBoard() throws IOException, SQLException {
+    public List<ResponseSelectAllBoard> selectAllBoard() {
         return boardRepo.findAll()
                 .stream()
                 .map(board -> modelMapper.map(board, ResponseSelectAllBoard.class))
@@ -50,7 +49,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public ResponseSelectBoardBySeq selectBoardBySeq(long seq) throws IOException, SQLException {
+    public ResponseSelectBoardBySeq selectBoardBySeq(long seq) {
         return modelMapper.map(boardRepo.findBoardBySeq(seq).orElseThrow(() -> new CustomException(NOT_FOUND_BOARD)), ResponseSelectBoardBySeq.class);
     }
 

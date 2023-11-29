@@ -1,6 +1,7 @@
 package kim.jiwook.playground.controller.restController;
 
-import kim.jiwook.playground.common.authorizeLevel1;
+import io.swagger.v3.oas.annotations.media.Schema;
+import kim.jiwook.playground.common.annotaion.*;
 import kim.jiwook.playground.service.BoardService;
 import kim.jiwook.playground.vo.request.RequestInsertBoard;
 import kim.jiwook.playground.vo.response.ResponseSelectAllBoard;
@@ -13,8 +14,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -24,43 +23,22 @@ import java.util.List;
 public class RestBoardController {
     private final BoardService boardService;
 
-    /**
-     * 게시글 작성 API
-     *
-     * @param requestVO RequestInsertBoard
-     * @return ResponseEntity 글이 저장되면 1, 저장되지 않으면 0
-     * @throws IOException
-     * @throws SQLException
-     */
     @PostMapping("/board")
-    @authorizeLevel1
-    public ResponseEntity<Long> restfulInsertBoard(@AuthenticationPrincipal User user,
-                                                   @Valid @RequestBody RequestInsertBoard requestVO) throws IOException, SQLException {
+    @authorizeLevel2
+    public ResponseEntity<Long> restfulInsertBoard(@Schema(hidden = true) @AuthenticationPrincipal User user,
+                                                   @Valid @RequestBody RequestInsertBoard requestVO) {
         return ResponseEntity.ok(boardService.insertBoard(requestVO, user));
     }
 
-    /**
-     * 전체 게시글 조회
-     *
-     * @return List<ResponseSelectAllBoard>
-     * @throws IOException
-     * @throws SQLException
-     */
     @GetMapping("/board")
-    public ResponseEntity<List<ResponseSelectAllBoard>> restfulSelectAllBoard() throws IOException, SQLException {
+    @authorizeLevel1
+    public ResponseEntity<List<ResponseSelectAllBoard>> restfulSelectAllBoard() {
         return ResponseEntity.ok(boardService.selectAllBoard());
     }
 
-    /**
-     * 게시글 상세 조회
-     *
-     * @param seq 게시글 시퀀스
-     * @return ResponseEntity ResponseSelectBoardBySeq
-     * @throws IOException
-     * @throws SQLException
-     */
     @GetMapping("/board/{seq}")
-    public ResponseEntity<ResponseSelectBoardBySeq> restfulSelectBoardBySeq(@PathVariable("seq") long seq) throws IOException, SQLException {
+    @authorizeLevel1
+    public ResponseEntity<ResponseSelectBoardBySeq> restfulSelectBoardBySeq(@PathVariable("seq") long seq) {
         return ResponseEntity.ok(boardService.selectBoardBySeq(seq));
     }
 

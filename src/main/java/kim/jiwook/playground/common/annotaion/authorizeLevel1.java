@@ -1,4 +1,4 @@
-package kim.jiwook.playground.common;
+package kim.jiwook.playground.common.annotaion;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -9,6 +9,5 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-public @interface authorizeLevel2 {
-}
+@PreAuthorize("hasAnyAuthority('ANONYMOUS', 'USER', 'ADMIN')")
+public @interface authorizeLevel1 {}
