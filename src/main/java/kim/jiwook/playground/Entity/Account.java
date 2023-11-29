@@ -39,7 +39,15 @@ public class Account extends BaseTimeEntity {
                 .type(AccountType.USER)
                 .build();
     }
-}
+
+    public static Account adminFrom(RequestSignUp request, PasswordEncoder encoder) {
+        return Account.builder()
+                .loginId(request.getLoginId())
+                .loginPwd(encoder.encode(request.getLoginPwd()))
+                .uuid(UUID.randomUUID().toString())
+                .type(AccountType.ADMIN)
+                .build();
+    }
 
     @Getter
     @AllArgsConstructor
