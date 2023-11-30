@@ -7,7 +7,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
-    private final String[] ALLOWED_URL_PERMIT_ALL = {"/", "/error"};
+    private final String[] ALLOWED_URL_PERMIT_ALL = {"/", "/error", "/api/join"};
     private final String[] ALLOWED_URL_CSRF = {"/api/**"};
 
     @Bean
