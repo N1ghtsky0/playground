@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.UUID;
 
@@ -42,10 +43,10 @@ public class Account extends BaseTimeEntity {
     @Column(length = 36)
     private String uuid;
 
-    public static Account createUser(RequestSignUp requestSignUp) {
+    public static Account createUser(RequestSignUp requestSignUp, PasswordEncoder encoder) {
         return Account.builder()
                 .loginId(requestSignUp.getLoginId())
-                .loginPwd(requestSignUp.getLoginPwd())
+                .loginPwd(encoder.encode(requestSignUp.getLoginPwd()))
                 .name(requestSignUp.getName())
                 .nickName(requestSignUp.getNickName())
                 .birthDay(requestSignUp.getBirthDay())
@@ -54,10 +55,10 @@ public class Account extends BaseTimeEntity {
                 .build();
     }
 
-    public static Account createAdmin(RequestSignUp requestSignUp) {
+    public static Account createAdmin(RequestSignUp requestSignUp, PasswordEncoder encoder) {
         return Account.builder()
                 .loginId(requestSignUp.getLoginId())
-                .loginPwd(requestSignUp.getLoginPwd())
+                .loginPwd(encoder.encode(requestSignUp.getLoginPwd()))
                 .name(requestSignUp.getName())
                 .nickName(requestSignUp.getNickName())
                 .birthDay(requestSignUp.getBirthDay())
