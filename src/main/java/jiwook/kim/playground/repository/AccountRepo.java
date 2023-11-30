@@ -13,4 +13,6 @@ public interface AccountRepo extends JpaRepository<Account, Long> {
 
     Optional<Account> findAccountBySeq(Long seq);
 
+    Optional<Account> findAccountByLoginId(String loginId);
+
 }

@@ -1,6 +1,8 @@
 package jiwook.kim.playground.controller;
 
+import jiwook.kim.playground.dto.request.RequestLogIn;
 import jiwook.kim.playground.dto.request.RequestSignUp;
+import jiwook.kim.playground.dto.response.ResponseLogIn;
 import jiwook.kim.playground.dto.response.ResponseMyInfo;
 import jiwook.kim.playground.service.AccountService;
 import lombok.RequiredArgsConstructor;
@@ -41,5 +43,12 @@ public class RestAccountController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(accountService.getMyInfo(seq));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<ResponseLogIn> logIn(@RequestBody RequestLogIn requestLogIn) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(accountService.login(requestLogIn));
     }
 }
