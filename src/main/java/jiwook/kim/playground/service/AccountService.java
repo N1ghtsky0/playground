@@ -1,6 +1,7 @@
 package jiwook.kim.playground.service;
 
 import jiwook.kim.playground.dto.request.RequestSignUp;
+import jiwook.kim.playground.dto.response.ResponseMyInfo;
 
 public interface AccountService {
 
@@ -9,5 +10,7 @@ public interface AccountService {
     boolean isLoginIdDuplicate(String loginId);
 
     boolean isNickNameDuplicate(String nickName);
+
+    ResponseMyInfo getMyInfo(Long seq);
 
 }

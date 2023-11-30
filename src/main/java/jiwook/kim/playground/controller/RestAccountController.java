@@ -1,6 +1,7 @@
 package jiwook.kim.playground.controller;
 
 import jiwook.kim.playground.dto.request.RequestSignUp;
+import jiwook.kim.playground.dto.response.ResponseMyInfo;
 import jiwook.kim.playground.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -33,5 +34,12 @@ public class RestAccountController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(accountService.SignUp(requestSignUp));
+    }
+
+    @GetMapping("/my")
+    public ResponseEntity<ResponseMyInfo> getMyInfo(@RequestParam("seq") Long seq) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(accountService.getMyInfo(seq));
     }
 }
