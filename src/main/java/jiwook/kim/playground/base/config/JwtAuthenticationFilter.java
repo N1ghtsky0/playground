@@ -1,5 +1,8 @@
 package jiwook.kim.playground.base.config;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -7,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jiwook.kim.playground.Entity.Account;
 import jiwook.kim.playground.repository.AccountRepo;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,19 +27,27 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
+@Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final TokenProvider tokenProvider;
     private final AccountRepo accountRepo;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String token = parseBearerToken(request);
-        if (token != null && tokenProvider.isTokenValid(token)) {
-            User user = parseUserSpecification(token);
-            AbstractAuthenticationToken authenticated = UsernamePasswordAuthenticationToken.authenticated(user, token, user.getAuthorities());
+        try {
+            String token = parseBearerToken(request);
+            if (token != null && tokenProvider.isTokenValid(token)) {
+                User user = parseUserSpecification(token);
+                AbstractAuthenticationToken authenticated = UsernamePasswordAuthenticationToken.authenticated(user, token, user.getAuthorities());
 
-            authenticated.setDetails(new WebAuthenticationDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authenticated);
+                authenticated.setDetails(new WebAuthenticationDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authenticated);
+            }
+        } catch (SignatureException | ExpiredJwtException | MalformedJwtException e) {
+            request.setAttribute("exception", e);
+        } catch (Exception e) {
+            log.error("Error without JWT!!");
+            log.error(e.toString());
         }
 
         filterChain.doFilter(request, response);

@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -17,6 +18,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @EnableWebSecurity
 public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final AuthenticationEntryPoint entryPoint;
     private final String[] ALLOWED_URL_PERMIT_ALL = {"/", "/error", "/api/join", "/api/login"};
     private final String[] ALLOWED_URL_CSRF = {"/api/**"};
 
@@ -30,6 +32,7 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, BasicAuthenticationFilter.class)
+                .exceptionHandling(handler -> handler.authenticationEntryPoint(entryPoint))
                 .build();
     }
 
