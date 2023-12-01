@@ -8,7 +8,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jiwook.kim.playground.Entity.Account;
+import jiwook.kim.playground.Entity.RefreshToken;
+import jiwook.kim.playground.base.common.TokenType;
 import jiwook.kim.playground.repository.AccountRepo;
+import jiwook.kim.playground.repository.RefreshTokenRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -31,11 +34,12 @@ import java.util.Optional;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final TokenProvider tokenProvider;
     private final AccountRepo accountRepo;
+    private final RefreshTokenRepo refreshTokenRepo;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-            String token = parseBearerToken(request);
+            String token = parseBearerToken(request, TokenType.ACCESS);
             if (token != null && tokenProvider.isTokenValid(token)) {
                 User user = parseUserSpecification(token);
                 AbstractAuthenticationToken authenticated = UsernamePasswordAuthenticationToken.authenticated(user, token, user.getAuthorities());
@@ -43,18 +47,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 authenticated.setDetails(new WebAuthenticationDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticated);
             }
-        } catch (SignatureException | ExpiredJwtException | MalformedJwtException e) {
+        } catch (ExpiredJwtException e) {
+            reIssueAccessToken(request, response, e);
+        } catch (SignatureException | MalformedJwtException e) {
             request.setAttribute("exception", e);
         } catch (Exception e) {
             log.error("Error without JWT!!");
             log.error(e.toString());
+            request.setAttribute("exception", e);
         }
 
         filterChain.doFilter(request, response);
     }
 
-    private String parseBearerToken(HttpServletRequest request) {
-        return Optional.ofNullable(request.getHeader(HttpHeaders.AUTHORIZATION))
+    private String parseBearerToken(HttpServletRequest request, TokenType type) {
+        String headerName = (type.equals(TokenType.ACCESS)) ? HttpHeaders.AUTHORIZATION : "Refresh-Token";
+        return Optional.ofNullable(request.getHeader(headerName))
                 .filter(token -> token.substring(0, 7).equalsIgnoreCase("Bearer "))
                 .map(token -> token.substring(7))
                 .orElse(null);
@@ -73,5 +81,40 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return new User("anonymous", "", List.of(new SimpleGrantedAuthority("ANONYMOUS")));
         }
         return new User(account.getUuid(), "", List.of(new SimpleGrantedAuthority(account.getType().name())));
+    }
+
+    private void reIssueAccessToken(HttpServletRequest request, HttpServletResponse response, Exception exception) {
+        try {
+            String requestRefreshToken = parseBearerToken(request, TokenType.REFRESH);
+            String requestAccessToken = parseBearerToken(request, TokenType.ACCESS);
+            if (requestRefreshToken != null && tokenProvider.isTokenValid(requestRefreshToken)) {
+                RefreshToken originRefreshToken = refreshTokenRepo.findRefreshTokenByAccessToken(requestAccessToken).orElse(null);
+                if (originRefreshToken != null) {
+                    Account account = accountRepo.findAccountByUuid(originRefreshToken.getId()).orElseThrow();
+                    String newAccessToken = tokenProvider.createToken(String.format("%s:%s", account.getNickName(), account.getUuid()), TokenType.ACCESS);
+                    String newRefreshToken = tokenProvider.createToken("", TokenType.REFRESH);
+
+                    refreshTokenRepo.delete(originRefreshToken);
+                    refreshTokenRepo.save(new RefreshToken(originRefreshToken.getId(), newRefreshToken, newAccessToken));
+
+                    User user = parseUserSpecification(newAccessToken);
+                    AbstractAuthenticationToken authenticated = UsernamePasswordAuthenticationToken.authenticated(user, newAccessToken, user.getAuthorities());
+                    authenticated.setDetails(new WebAuthenticationDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authenticated);
+
+                    response.setHeader("New-Access-Token", newAccessToken);
+                    response.setHeader("New-Refresh-Token", newRefreshToken);
+                    log.info("reIssueAccessToken end");
+                }
+            } else {
+                request.setAttribute("exception", exception);
+            }
+        } catch (SignatureException | ExpiredJwtException | MalformedJwtException e) {
+            request.setAttribute("exception", e);
+        } catch (Exception e) {
+            log.error("Error without JWT!!");
+            log.error(e.toString());
+            request.setAttribute("exception", e);
+        }
     }
 }

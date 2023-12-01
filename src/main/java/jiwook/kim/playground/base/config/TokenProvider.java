@@ -20,7 +20,7 @@ import java.time.temporal.ChronoUnit;
 public class TokenProvider {
     private final String SECRET_KEY;
     private final String ISSUER;
-    private final Long ACCESS_TOKEN_EXPIRATION = (long) 60 * 60;  // 1 HOUR
+    private final Long ACCESS_TOKEN_EXPIRATION = (long) 60;  // 1 HOUR
     private final Long REFRESH_TOKEN_EXPIRATION = (long) 60 * 60 * 24;    // 1 DAY
 
     public TokenProvider(

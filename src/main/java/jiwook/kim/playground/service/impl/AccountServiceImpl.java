@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -74,6 +75,10 @@ public class AccountServiceImpl implements AccountService {
 
         String accessToken = tokenProvider.createToken(String.format("%s:%s", account.getNickName(), account.getUuid()), TokenType.ACCESS);
         String refreshToken = tokenProvider.createToken("", TokenType.REFRESH); // 리프레시 토큰은 유저정보 필요 X
+
+        Optional<RefreshToken> originRefreshToken = refreshTokenRepo.findRefreshTokenById(account.getUuid());
+        originRefreshToken.ifPresent(refreshTokenRepo::delete); // 로그인 정보가 있는 상태에서 재로그인 시 기존 정보 삭제
+
         refreshTokenRepo.save(new RefreshToken(account.getUuid(), refreshToken, accessToken));
 
         return ResponseLogIn.builder()
