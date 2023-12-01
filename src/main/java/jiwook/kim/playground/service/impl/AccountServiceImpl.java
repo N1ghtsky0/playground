@@ -44,8 +44,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public ResponseMyInfo getMyInfo(Long seq) {
-        Account account = accountRepo.findAccountBySeq(seq).orElse(null);
+    public ResponseMyInfo getMyInfo(String uuid) {
+        Account account = accountRepo.findAccountByUuid(uuid).orElse(null);
         if (account == null) {
             return null;
         }

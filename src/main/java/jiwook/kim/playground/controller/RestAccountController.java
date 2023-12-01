@@ -8,6 +8,7 @@ import jiwook.kim.playground.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -39,10 +40,10 @@ public class RestAccountController {
     }
 
     @GetMapping("/my")
-    public ResponseEntity<ResponseMyInfo> getMyInfo(@RequestParam("seq") Long seq) {
+    public ResponseEntity<ResponseMyInfo> getMyInfo(Authentication authentication) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(accountService.getMyInfo(seq));
+                .body(accountService.getMyInfo(authentication.getName()));
     }
 
     @PostMapping("/login")

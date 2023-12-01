@@ -13,7 +13,7 @@ public interface AccountService {
 
     boolean isNickNameDuplicate(String nickName);
 
-    ResponseMyInfo getMyInfo(Long seq);
+    ResponseMyInfo getMyInfo(String uuid);
 
     ResponseLogIn login(RequestLogIn requestLogIn);
 

@@ -11,9 +11,9 @@ public interface AccountRepo extends JpaRepository<Account, Long> {
 
     boolean existsAccountByNickName(String nickName);
 
-    Optional<Account> findAccountBySeq(Long seq);
-
     Optional<Account> findAccountByLoginId(String loginId);
+
+    Optional<Account> findAccountByUuid(String uuid);
 
     Optional<Account> findAccountByNickNameAndUuid(String nickName, String uuid);
 
