@@ -15,4 +15,6 @@ public interface AccountRepo extends JpaRepository<Account, Long> {
 
     Optional<Account> findAccountByLoginId(String loginId);
 
+    Optional<Account> findAccountByNickNameAndUuid(String nickName, String uuid);
+
 }

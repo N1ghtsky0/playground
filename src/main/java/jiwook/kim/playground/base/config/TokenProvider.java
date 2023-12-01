@@ -1,5 +1,6 @@
 package jiwook.kim.playground.base.config;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jiwook.kim.playground.base.common.TokenType;
@@ -39,6 +40,33 @@ public class TokenProvider {
                 .setIssuedAt(Timestamp.valueOf(LocalDateTime.now()))
                 .setExpiration(Date.from(Instant.now().plus(expiration, ChronoUnit.SECONDS)))
                 .compact();
+    }
+
+    private Claims extractClaim(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(SECRET_KEY.getBytes())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    public boolean isTokenValid(String token) {
+        return !isTokenExpired(token) && validateTokenPayload(token);
+    }
+
+    private boolean isTokenExpired(String token) {
+        return extractClaim(token).getExpiration().before(new java.util.Date());
+    }
+
+    private boolean validateTokenPayload(String token) {
+        // todo 추가 payload 요소 검증
+        String issuer = extractClaim(token).getIssuer();
+
+        return issuer.equals(ISSUER);
+    }
+
+    public String getTokenSubject(String token) {
+        return extractClaim(token).getSubject();
     }
 
 }
