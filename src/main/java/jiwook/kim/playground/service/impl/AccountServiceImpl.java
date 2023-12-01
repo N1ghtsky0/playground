@@ -1,6 +1,7 @@
 package jiwook.kim.playground.service.impl;
 
 import jiwook.kim.playground.Entity.Account;
+import jiwook.kim.playground.Entity.RefreshToken;
 import jiwook.kim.playground.base.common.TokenType;
 import jiwook.kim.playground.base.config.TokenProvider;
 import jiwook.kim.playground.dto.request.RequestLogIn;
@@ -8,6 +9,7 @@ import jiwook.kim.playground.dto.request.RequestSignUp;
 import jiwook.kim.playground.dto.response.ResponseLogIn;
 import jiwook.kim.playground.dto.response.ResponseMyInfo;
 import jiwook.kim.playground.repository.AccountRepo;
+import jiwook.kim.playground.repository.RefreshTokenRepo;
 import jiwook.kim.playground.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +22,7 @@ import java.time.format.DateTimeFormatter;
 public class AccountServiceImpl implements AccountService {
     private final PasswordEncoder encoder;
     private final AccountRepo accountRepo;
+    private final RefreshTokenRepo refreshTokenRepo;
     private final TokenProvider tokenProvider;
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
@@ -70,8 +73,12 @@ public class AccountServiceImpl implements AccountService {
         }
 
         String accessToken = tokenProvider.createToken(String.format("%s:%s", account.getNickName(), account.getUuid()), TokenType.ACCESS);
+        String refreshToken = tokenProvider.createToken("", TokenType.REFRESH); // 리프레시 토큰은 유저정보 필요 X
+        refreshTokenRepo.save(new RefreshToken(account.getUuid(), refreshToken, accessToken));
+
         return ResponseLogIn.builder()
                 .accessToken(accessToken)
+                .refreshToken(refreshToken)
                 .build();
     }
 
