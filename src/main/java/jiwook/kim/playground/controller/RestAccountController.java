@@ -1,9 +1,8 @@
 package jiwook.kim.playground.controller;
 
+import jiwook.kim.playground.dto.ApiResponse;
 import jiwook.kim.playground.dto.request.RequestLogIn;
 import jiwook.kim.playground.dto.request.RequestSignUp;
-import jiwook.kim.playground.dto.response.ResponseLogIn;
-import jiwook.kim.playground.dto.response.ResponseMyInfo;
 import jiwook.kim.playground.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +17,7 @@ public class RestAccountController {
     private final AccountService accountService;
 
     @GetMapping("/join")
-    public ResponseEntity<Boolean> checkJoinValueDuplicate(@RequestParam("name") String name,
+    public ResponseEntity<ApiResponse> checkJoinValueDuplicate(@RequestParam("name") String name,
                                                            @RequestParam("val") String val) {
         boolean result = false;
         if (name.equals("loginId")) {
@@ -29,27 +28,27 @@ public class RestAccountController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(result);
+                .body(ApiResponse.success(result));
     }
 
     @PostMapping("/join")
-    public ResponseEntity<Boolean> signUp(@RequestBody RequestSignUp requestSignUp) {
+    public ResponseEntity<ApiResponse> signUp(@RequestBody RequestSignUp requestSignUp) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(accountService.SignUp(requestSignUp));
+                .body(ApiResponse.success(accountService.SignUp(requestSignUp)));
     }
 
     @GetMapping("/my")
-    public ResponseEntity<ResponseMyInfo> getMyInfo(Authentication authentication) {
+    public ResponseEntity<ApiResponse> getMyInfo(Authentication authentication) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(accountService.getMyInfo(authentication.getName()));
+                .body(ApiResponse.success(accountService.getMyInfo(authentication.getName())));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ResponseLogIn> logIn(@RequestBody RequestLogIn requestLogIn) {
+    public ResponseEntity<ApiResponse> logIn(@RequestBody RequestLogIn requestLogIn) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(accountService.login(requestLogIn));
+                .body(ApiResponse.success(accountService.login(requestLogIn)));
     }
 }
