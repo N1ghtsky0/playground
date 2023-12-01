@@ -63,6 +63,7 @@ public class Account extends BaseTimeEntity {
                 .nickName(requestSignUp.getNickName())
                 .birthDay(requestSignUp.getBirthDay())
                 .type(AccountType.ADMIN)
+                .uuid(UUID.randomUUID().toString())
                 .build();
     }
 
