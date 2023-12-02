@@ -95,7 +95,7 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     public boolean updatePassword(RequestUpdatePassword requestUpdatePassword, String uuid) {
         Account account = accountRepo.findAccountByUuid(uuid).orElseThrow(
-                () -> new NullPointerException(String.format("{loginId - %s}의 정보를 찾을 수 없습니다.", uuid)));
+                () -> new NullPointerException(String.format("{uuid - %s}의 정보를 찾을 수 없습니다.", uuid)));
 
         if (encoder.matches(requestUpdatePassword.getOldPwd(), account.getLoginPwd())) {
             account.updateLoginPwd(requestUpdatePassword.getNewPwd(), encoder);
