@@ -3,6 +3,7 @@ package jiwook.kim.playground.controller;
 import jiwook.kim.playground.dto.ApiResponse;
 import jiwook.kim.playground.dto.request.RequestLogIn;
 import jiwook.kim.playground.dto.request.RequestSignUp;
+import jiwook.kim.playground.dto.request.RequestUpdatePassword;
 import jiwook.kim.playground.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -43,6 +44,13 @@ public class RestAccountController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ApiResponse.success(accountService.getMyInfo(authentication.getName())));
+    }
+
+    @PostMapping("/my")
+    public ResponseEntity<ApiResponse> updateLoginPwd(@RequestBody RequestUpdatePassword requestUpdatePassword, Authentication authentication) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.success(accountService.updatePassword(requestUpdatePassword, authentication.getName())));
     }
 
     @PostMapping("/login")

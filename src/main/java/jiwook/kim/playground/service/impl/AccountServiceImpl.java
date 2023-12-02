@@ -6,20 +6,24 @@ import jiwook.kim.playground.base.common.TokenType;
 import jiwook.kim.playground.base.config.TokenProvider;
 import jiwook.kim.playground.dto.request.RequestLogIn;
 import jiwook.kim.playground.dto.request.RequestSignUp;
+import jiwook.kim.playground.dto.request.RequestUpdatePassword;
 import jiwook.kim.playground.dto.response.ResponseLogIn;
 import jiwook.kim.playground.dto.response.ResponseMyInfo;
 import jiwook.kim.playground.repository.AccountRepo;
 import jiwook.kim.playground.repository.RefreshTokenRepo;
 import jiwook.kim.playground.service.AccountService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AccountServiceImpl implements AccountService {
     private final PasswordEncoder encoder;
     private final AccountRepo accountRepo;
@@ -85,6 +89,21 @@ public class AccountServiceImpl implements AccountService {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    @Override
+    @Transactional
+    public boolean updatePassword(RequestUpdatePassword requestUpdatePassword, String uuid) {
+        Account account = accountRepo.findAccountByUuid(uuid).orElseThrow(
+                () -> new NullPointerException(String.format("{loginId - %s}의 정보를 찾을 수 없습니다.", uuid)));
+
+        if (encoder.matches(requestUpdatePassword.getOldPwd(), account.getLoginPwd())) {
+            account.updateLoginPwd(requestUpdatePassword.getNewPwd(), encoder);
+            return true;
+        } else {
+            log.info("기존 비밀번호가 일치하지 않습니다.");
+            return false;
+        }
     }
 
 }

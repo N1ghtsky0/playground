@@ -55,6 +55,10 @@ public class Account extends BaseTimeEntity {
                 .build();
     }
 
+    public void updateLoginPwd(String newLoginPwd, PasswordEncoder encoder) {
+        this.loginPwd = encoder.encode(newLoginPwd);
+    }
+
     public static Account createAdmin(RequestSignUp requestSignUp, PasswordEncoder encoder) {
         return Account.builder()
                 .loginId(requestSignUp.getLoginId())
