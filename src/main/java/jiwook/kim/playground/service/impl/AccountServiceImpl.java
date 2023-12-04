@@ -18,7 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Service
@@ -29,7 +28,6 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepo accountRepo;
     private final RefreshTokenRepo refreshTokenRepo;
     private final TokenProvider tokenProvider;
-    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     @Override
     public boolean SignUp(RequestSignUp requestSignUp) {
@@ -58,13 +56,7 @@ public class AccountServiceImpl implements AccountService {
             return null;
         }
 
-        return ResponseMyInfo.builder()
-                .loginId(account.getLoginId())
-                .name(account.getName())
-                .birthDay(account.getBirthDay())
-                .nickName(account.getNickName())
-                .createDate(account.getCreateDate().format(dateTimeFormatter))
-                .build();
+        return new ResponseMyInfo(account);
     }
 
     @Override
