@@ -1,5 +1,9 @@
 server:
   port: 8080
+  servlet:
+    encoding:
+      # 한글 깨짐을 해결하기 위한 설정
+      force-response: true
 
 spring:
   datasource:
