@@ -1,12 +1,10 @@
 package jiwook.kim.playground.dto.response;
 
 import jiwook.kim.playground.Entity.Account;
-import lombok.Builder;
 import lombok.Getter;
 
 import java.time.format.DateTimeFormatter;
 
-@Builder
 @Getter
 public class ResponseMyInfo {
 
