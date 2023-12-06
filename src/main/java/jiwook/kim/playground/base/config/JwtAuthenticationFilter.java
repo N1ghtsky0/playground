@@ -40,13 +40,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             String token = parseBearerToken(request, TokenType.ACCESS);
-            if (token != null && tokenProvider.isTokenValid(token)) {
-                User user = parseUserSpecification(token);
-                AbstractAuthenticationToken authenticated = UsernamePasswordAuthenticationToken.authenticated(user, token, user.getAuthorities());
+            User user = parseUserSpecification(token);
+            AbstractAuthenticationToken authenticated = UsernamePasswordAuthenticationToken.authenticated(user, token, user.getAuthorities());
 
-                authenticated.setDetails(new WebAuthenticationDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authenticated);
-            }
+            authenticated.setDetails(new WebAuthenticationDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authenticated);
         } catch (ExpiredJwtException e) {
             reIssueAccessToken(request, response, e);
         } catch (SignatureException | MalformedJwtException e) {
@@ -56,14 +54,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             log.error(e.toString());
             request.setAttribute("exception", e);
         }
-
         filterChain.doFilter(request, response);
     }
 
     private String parseBearerToken(HttpServletRequest request, TokenType type) {
         String headerName = (type.equals(TokenType.ACCESS)) ? HttpHeaders.AUTHORIZATION : "Refresh-Token";
         return Optional.ofNullable(request.getHeader(headerName))
-                .filter(token -> token.substring(0, 7).equalsIgnoreCase("Bearer "))
+                .filter(token -> token.startsWith("Bearer "))
                 .map(token -> token.substring(7))
                 .orElse(null);
     }
@@ -87,7 +84,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             String requestRefreshToken = parseBearerToken(request, TokenType.REFRESH);
             String requestAccessToken = parseBearerToken(request, TokenType.ACCESS);
-            if (requestRefreshToken != null && tokenProvider.isTokenValid(requestRefreshToken)) {
+            if (requestAccessToken != null && requestRefreshToken != null && tokenProvider.isTokenValid(requestRefreshToken)) {
                 RefreshToken originRefreshToken = refreshTokenRepo.findRefreshTokenByAccessToken(requestAccessToken).orElse(null);
                 if (originRefreshToken != null) {
                     Account account = accountRepo.findAccountByUuid(originRefreshToken.getId()).orElseThrow();
@@ -107,9 +104,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     log.info("reIssueAccessToken end");
                 }
             } else {
+                log.info("ex 1");
                 request.setAttribute("exception", exception);
             }
         } catch (SignatureException | ExpiredJwtException | MalformedJwtException e) {
+            log.info("ex 2");
             request.setAttribute("exception", e);
         } catch (Exception e) {
             log.error("Error without JWT!!");
