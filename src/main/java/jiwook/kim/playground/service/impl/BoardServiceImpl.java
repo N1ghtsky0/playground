@@ -36,7 +36,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public List<ResponseGetBoardSummary> getBoardList() {
-        return boardRepo.findAll()
+        return boardRepo.findAllDesc()
                 .stream().map(board -> new ResponseGetBoardSummary().from(board))
                 .collect(Collectors.toList());
     }
