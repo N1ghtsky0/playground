@@ -39,4 +39,13 @@ public class FormController {
 
         return "redirect:/";
     }
+
+    @PostMapping("/form/request-params")
+    public String formByRequestParams(@RequestParam(value = "name") String name,
+                                      @RequestParam(value = "fruit") String fruit) {
+        log.info("formByRequestParams");
+        log.info(String.format("form-data ===> {name=%s, fruit=%s}", name, fruit));
+
+        return "redirect:/";
+    }
 }
