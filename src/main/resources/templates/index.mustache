@@ -8,7 +8,21 @@
 </head>
 <body>
 <div class="container">
-  <form action="/form" method="post">
+  <div class="d-flex justify-content-evenly">
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="actionRadio" id="HashMap" value="/form/hash-map" checked>
+      <label class="form-check-label" for="HashMap">
+        HashMap
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="actionRadio" value="/form/dto" id="DTO">
+      <label class="form-check-label" for="DTO">
+        DTO
+      </label>
+    </div>
+  </div>
+  <form id="frm" method="post">
     <div class="mb-3">
       <label for="name" class="form-label">이름</label>
       <input type="text" class="form-control" id="name" name="name">
@@ -17,10 +31,15 @@
       <label for="fruit" class="form-label">좋아하는 과일</label>
       <input type="text" class="form-control" id="fruit" name="fruit">
     </div>
-    <button type="submit" class="btn btn-primary">제출</button>
+    <button class="btn btn-primary" onclick="formSubmit()">제출</button>
   </form>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+  function formSubmit() {
+    $("#frm").attr("action" , $("input[name='actionRadio']:checked").val()).submit();
+  }
+</script>
 </body>
 </html>
