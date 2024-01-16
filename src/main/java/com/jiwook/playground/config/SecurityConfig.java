@@ -9,7 +9,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
-    private final String[] ALL_ALLOWED_URLS = {"/", "/index", "/login"};
+    private final String[] ALL_ALLOWED_URLS = {"/", "/index", "/login", "/join"};
     private final String[] USER_ALLOWED_URLS = {"/info"};
     private final String[] ADMIN_ALLOWED_URLS = {"/users"};
 
