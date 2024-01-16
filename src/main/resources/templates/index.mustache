@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+
+  <style>
+    table {
+      width: 100%;
+      border: 1px solid;
+      border-collapse: collapse;
+      text-align: center;
+    }
+
+    th, td {
+      border: 1px solid;
+    }
+  </style>
+</head>
+<body>
+<h1>Index Page</h1>
+<table>
+  <tr>
+    <th colspan="col">페이지명</th>
+    <th colspan="col">로그인 필요 유무</th>
+    <th colspan="col">접근 권한</th>
+    <th colspan="col">특징</th>
+  </tr>
+  <tr>
+    <td>
+      <a href="#">
+        메인 페이지
+      </a>
+    </td>
+    <td>X</td>
+    <td>ALL</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>
+      <a href="#">
+        로그인 페이지
+      </a>
+    </td>
+    <td>X</td>
+    <td>ALL</td>
+    <td>로그인 한 유저가 접근 시 메인 페이지로 이동</td>
+  </tr>
+  <tr>
+    <td>
+      <a href="#">
+        내 정보 페이지
+      </a>
+    </td>
+    <td>O</td>
+    <td>USER, ADMIN</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>
+      <a href="#">
+        유저 정보 페이지
+      </a>
+    </td>
+    <td>O</td>
+    <td>ADMIN</td>
+    <td>관리자만 접근 가능한 모든 유저 정보 페이지</td>
+  </tr>
+</table>
+</body>
+</html>
