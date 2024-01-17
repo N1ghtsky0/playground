@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -37,6 +39,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User getUserInfoByLoginId(String loginId) {
         return userRepo.findByLoginId(loginId)
                 .orElseThrow(() -> new UsernameNotFoundException("해당 유저를 찾을 수 없습니다."));
+    }
+
+    @Override
+    public List<User> getAllUser() {
+        return userRepo.findAll();
     }
 
     @Override

@@ -39,4 +39,10 @@ public class IndexController {
         model.addAttribute("user", userService.getUserInfoByLoginId(authentication.getName()));
         return "/my-info";
     }
+
+    @GetMapping(value = "/users")
+    public String allUserInfoPage(Model model) {
+        model.addAttribute("userList", userService.getAllUser());
+        return "/all-user";
+    }
 }
