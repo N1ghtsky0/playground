@@ -9,3 +9,13 @@ spring:
     properties:
       hibernate:
         format_sql: true
+    hibernate:
+      ddl-auto: create
+  mustache:
+    servlet:
+      expose-request-attributes: true
+
+server:
+  servlet:
+    encoding:
+      force: true
