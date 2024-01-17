@@ -21,7 +21,17 @@ public class SecurityConfig {
                         .requestMatchers(USER_ALLOWED_URLS).authenticated()
                         .requestMatchers(ADMIN_ALLOWED_URLS).hasAuthority(UserRole.ADMIN.name())
                         .anyRequest().permitAll()
-                );
+                )
+                .formLogin(form -> form
+                        .usernameParameter("loginId")
+                        .passwordParameter("password")
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/"))
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID"));
         return http.build();
     }
 }

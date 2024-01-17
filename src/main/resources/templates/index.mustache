@@ -19,6 +19,13 @@
 </head>
 <body>
 <h1>Index Page</h1>
+{{#nickName}}
+  <h2>환영합니다! {{nickName}}님!</h2>
+  <form method="post" action="/logout">
+    <input type="hidden" name="{{_csrf.parameterName}}" value="{{_csrf.token}}">
+    <button type="submit">로그아웃</button>
+  </form>
+{{/nickName}}
 <table>
   <tr>
     <th colspan="col">페이지명</th>
@@ -48,7 +55,7 @@
   </tr>
   <tr>
     <td>
-      <a href="#">
+      <a href="/login">
         로그인 페이지
       </a>
     </td>
