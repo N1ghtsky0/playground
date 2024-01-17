@@ -1,12 +1,17 @@
 package com.jiwook.playground.controller;
 
+import com.jiwook.playground.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+@RequiredArgsConstructor
 @Controller
 public class IndexController {
+    private final UserService userService;
+
     @GetMapping(value = "/")
     public String indexPage(Authentication authentication, Model model) {
         if (authentication != null) {
@@ -27,5 +32,11 @@ public class IndexController {
         } else {
             return "redirect:/";
         }
+    }
+
+    @GetMapping(value = "/info")
+    public String myInfoPage(Authentication authentication, Model model) {
+        model.addAttribute("user", userService.getUserInfoByLoginId(authentication.getName()));
+        return "/my-info";
     }
 }
