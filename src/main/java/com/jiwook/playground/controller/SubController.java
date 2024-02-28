@@ -7,6 +7,7 @@ import com.jiwook.playground.repository.MainRepo;
 import com.jiwook.playground.repository.SubEagerRepo;
 import com.jiwook.playground.repository.SubLazyRepo;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/sub")
 @RestController
@@ -24,6 +26,7 @@ public class SubController {
 
     @GetMapping
     public ResponseEntity<List<?>> getAllSubEntity(@RequestParam("flag") String flag) {
+        log.info(String.format("서브 엔티티 전체 조회 호출 / flag = %s", flag));
         if ("e".equals(flag)) {
             return ResponseEntity.ok(subEagerRepo.findAll());
         } else if ("l".equals(flag)) {
@@ -34,6 +37,7 @@ public class SubController {
 
     @GetMapping("/{seq}")
     public ResponseEntity<?> getSubEntity(@PathVariable("seq") Long seq, @RequestParam("flag") String flag) {
+        log.info(String.format("서브 엔티티 개별 조회 호출 / flag = %s", flag));
         if ("e".equals(flag)) {
             return ResponseEntity.ok(subEagerRepo.findBySeq(seq));
         } else if ("l".equals(flag)) {
@@ -44,6 +48,7 @@ public class SubController {
 
     @PostMapping
     public ResponseEntity<?> saveSubEntity(@RequestBody HashMap<String, String> hashMap) {
+        log.info(String.format("서브 엔티티 저장 호출 / flag = %s", hashMap.get("flag")));
         if ("e".equals(hashMap.get("flag"))) {
             subEagerRepo.save(SubEagerEntity.builder()
                     .name(hashMap.get("name"))
@@ -60,6 +65,7 @@ public class SubController {
 
     @GetMapping("/lazy/test/{seq}")
     public ResponseEntity<?> lazyTest(@PathVariable("seq") Long seq, @RequestParam("flag") String flag) {
+        log.info(String.format("지연 로딩 시점 확인 호출 / flag = %s", flag));
         SubLazyEntity lazyEntity = subLazyRepo.findBySeq(seq);
         if ("t".equals(flag)) {
             return ResponseEntity.ok(new SubDTO(lazyEntity));
