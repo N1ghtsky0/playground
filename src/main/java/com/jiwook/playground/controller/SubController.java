@@ -22,7 +22,7 @@ public class SubController {
     private final SubLazyRepo subLazyRepo;
     private final MainRepo mainRepo;
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<?>> getAllSubEntity(@RequestParam("flag") String flag) {
         if ("e".equals(flag)) {
             return ResponseEntity.ok(subEagerRepo.findAll());
@@ -32,7 +32,7 @@ public class SubController {
         return ResponseEntity.ok(null);
     }
 
-    @GetMapping("/item/{seq}")
+    @GetMapping("/{seq}")
     public ResponseEntity<?> getSubEntity(@PathVariable("seq") Long seq, @RequestParam("flag") String flag) {
         if ("e".equals(flag)) {
             return ResponseEntity.ok(subEagerRepo.findBySeq(seq));
@@ -42,7 +42,7 @@ public class SubController {
         return ResponseEntity.ok(null);
     }
 
-    @PostMapping("/insert")
+    @PostMapping
     public ResponseEntity<?> saveSubEntity(@RequestBody HashMap<String, String> hashMap) {
         if ("e".equals(hashMap.get("flag"))) {
             subEagerRepo.save(SubEagerEntity.builder()

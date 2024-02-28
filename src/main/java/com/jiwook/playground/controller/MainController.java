@@ -16,17 +16,17 @@ import java.util.List;
 public class MainController {
     private final MainRepo mainRepo;
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<MainEntity>> getAllMainEntity() {
         return ResponseEntity.ok(mainRepo.findAll());
     }
 
-    @GetMapping("/item/{seq}")
+    @GetMapping("/{seq}")
     public ResponseEntity<MainEntity> getMainEntity(@PathVariable("seq") Long seq) {
         return ResponseEntity.ok(mainRepo.findBySeq(seq));
     }
 
-    @PostMapping("/insert")
+    @PostMapping
     public ResponseEntity<?> saveMainEntity(@RequestBody HashMap<String, String> hashMap) {
         mainRepo.save(MainEntity.builder()
                 .name(hashMap.get("name"))
