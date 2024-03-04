@@ -1,8 +1,5 @@
 # playground
 
-<details>
-<summary>브랜치별 특징</summary>
-
 |      브랜치명       | 특징                              |
 |:---------------:|---------------------------------|
 |      main       | 공부하고 구현한 내용을 통합한 브랜치            |
@@ -10,5 +7,4 @@
 |    form-data    | https://runnrun.tistory.com/114 |
 |  session-login  | https://runnrun.tistory.com/115 |
 | spring-data-jpa | https://runnrun.tistory.com/119 |
-
-</details>
+|  session-redis  | https://runnrun.tistory.com/121 |
