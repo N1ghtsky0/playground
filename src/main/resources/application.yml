@@ -1,0 +1,23 @@
+spring:
+  session:
+    store-type: redis
+  data:
+    redis:
+      host: docker-redis  #redis container name
+      port: 6379
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://docker-mysql:3306/session_redis #mysql container name:mysql expose port
+    username: root
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+server:
+  servlet:
+    encoding:
+      force: true
