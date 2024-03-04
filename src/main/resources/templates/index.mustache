@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<h1>인덱스 페이지</h1>
+<h2>서버 2</h2>
+{{#loginYN}}
+  <h3>로그인 O</h3>
+  <h5>계정: {{account}}</h5>
+  <form action="/logout" method="post">
+    <button type="submit">로그아웃</button>
+  </form>
+{{/loginYN}}
+{{^loginYN}}
+  <h3>로그인 X</h3>
+  <a href="/login">로그인</a>
+{{/loginYN}}
+<a href="javascript:void(0);" id="joinBtn">계정 추가</a>
+</body>
+<script>
+  document.querySelector("#joinBtn").addEventListener("click", function () {
+    const xhr = new XMLHttpRequest();
+    xhr.open("post", "http://192.168.0.157/join");
+
+    xhr.onload = function () {
+      const res = xhr.response;
+      console.log(res);
+      alert("계정 추가 완료");
+    };
+
+    xhr.onerror = function () {
+      console.log(xhr.status + ": " + xhr.statusText);
+      alert("오류 발생");
+    };
+
+    xhr.send();
+  })
+</script>
+</html>
