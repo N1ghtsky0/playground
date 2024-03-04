@@ -18,8 +18,9 @@ redis를 이용하여 세션 클러스터링 구현해보기
 1. git clone
 2. docker build
   2-1. src/main/resources/templates/index.mustache 의 9번라인(<h2>서버 2</h2>) 내용 변경
-  2-2. 커맨드 실행(docker build -t spring-server2 .)
-  2-3. 서버 1의 경우 spring-server1 로 이미지명 변경
+  2-2. 커맨드 실행(./gradlew bootjar)
+  2-3. 커맨드 실행(docker build -t spring-server2 .)
+  2-4. 서버 1의 경우 spring-server1 로 이미지명 변경
 3. 커맨드 실행(docker-compose up -d)
 4. http://localhost 로 접속하여 계정 추가 및 로그인 하여 세션 공유 확인
 ```
