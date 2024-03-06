@@ -1,9 +1,11 @@
 package com.jiwook.playground.service;
 
 import com.jiwook.playground.dto.ResponseDTO;
+import com.jiwook.playground.dto.reponse.TokenDTO;
 import com.jiwook.playground.dto.request.LoginDTO;
 import com.jiwook.playground.entity.Account;
 import com.jiwook.playground.repository.AccountRepo;
+import com.jiwook.playground.utils.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccountServiceImpl implements AccountService {
     private final AccountRepo accountRepo;
+    private final TokenProvider tokenProvider;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -27,8 +30,10 @@ public class AccountServiceImpl implements AccountService {
     public ResponseDTO login(LoginDTO loginDTO) {
         Account account = accountRepo.findByUsername(loginDTO.getUsername()).orElse(null);
         if (account != null && passwordEncoder.matches(loginDTO.getPassword(), account.getPassword())) {
-            //todo Token 생성
-            return ResponseDTO.success(null);
+            TokenDTO tokenDTO = TokenDTO.builder()
+                    .accessToken(tokenProvider.createToken(account.getUsername()))
+                    .build();
+            return ResponseDTO.success(tokenDTO);
         }
         return ResponseDTO.fail("아이디 또는 비밀번호가 틀렸습니다.");
     }
