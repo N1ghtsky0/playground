@@ -11,6 +11,7 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
+import java.util.UUID;
 
 @PropertySource("classpath:jwt.yml")
 @Service
@@ -19,13 +20,32 @@ public class TokenProvider {
     private String SECRET_KEY;
 
     private final Long ACCESS_TOKEN_EXPIRATION = (long) 1000 * 60 * 30;
+    private final Long ACCESS_REFRESH_EXPIRATION = (long) 1000 * 60 * 60 * 24 * 7;
 
-    public String createToken(String username) {
+    public String createAccessToken(String username) {
         final long currentMillis = System.currentTimeMillis();
         return Jwts.builder()
                 .subject(username)
+                .id(UUID.randomUUID().toString())
                 .issuedAt(new Date(currentMillis))
                 .expiration(new Date(currentMillis + ACCESS_TOKEN_EXPIRATION))
+                .signWith(getSignKey())
+                .compact();
+    }
+
+    /**
+     * 리프레쉬 토큰 생성
+     * @param accessToken 엑세스 토큰의 정보를 바탕으로 리프레쉬 토큰 생성
+     * @return (String) refreshToken
+     */
+    public String createRefreshToken(String accessToken) {
+        final long currentMillis = System.currentTimeMillis();
+        final Claims claims = validateToken(accessToken);
+        return Jwts.builder()
+                .subject(claims.getSubject())
+                .id(claims.getId())
+                .issuedAt(new Date(currentMillis))
+                .expiration(new Date(currentMillis + ACCESS_REFRESH_EXPIRATION))
                 .signWith(getSignKey())
                 .compact();
     }

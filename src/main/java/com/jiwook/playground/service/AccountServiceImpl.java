@@ -26,14 +26,18 @@ public class AccountServiceImpl implements AccountService {
                 .build());
     }
 
+    /**
+     * 로그인
+     * @param loginDTO 로그인 아이디, 비밀번호
+     * @return 성공 시 - success(TokenDTO), 실패 시 - fail
+     */
     @Override
     public ResponseDTO login(LoginDTO loginDTO) {
         Account account = accountRepo.findByUsername(loginDTO.getUsername()).orElse(null);
         if (account != null && passwordEncoder.matches(loginDTO.getPassword(), account.getPassword())) {
-            TokenDTO tokenDTO = TokenDTO.builder()
-                    .accessToken(tokenProvider.createToken(account.getUsername()))
-                    .build();
-            return ResponseDTO.success(tokenDTO);
+            final String accessToken = tokenProvider.createAccessToken(account.getUsername());
+            final String refreshToken = tokenProvider.createRefreshToken(accessToken);
+            return ResponseDTO.success(TokenDTO.builder().accessToken(accessToken).refreshToken(refreshToken).build());
         }
         return ResponseDTO.fail("아이디 또는 비밀번호가 틀렸습니다.");
     }
