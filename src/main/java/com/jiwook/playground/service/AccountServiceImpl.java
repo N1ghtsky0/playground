@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @RequiredArgsConstructor
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -35,7 +37,7 @@ public class AccountServiceImpl implements AccountService {
     public ResponseDTO login(LoginDTO loginDTO) {
         Account account = accountRepo.findByUsername(loginDTO.getUsername()).orElse(null);
         if (account != null && passwordEncoder.matches(loginDTO.getPassword(), account.getPassword())) {
-            final String accessToken = tokenProvider.createAccessToken(account.getUsername());
+            final String accessToken = tokenProvider.createAccessToken(account.getUsername(), UUID.randomUUID().toString());
             final String refreshToken = tokenProvider.createRefreshToken(accessToken);
             return ResponseDTO.success(TokenDTO.builder().accessToken(accessToken).refreshToken(refreshToken).build());
         }

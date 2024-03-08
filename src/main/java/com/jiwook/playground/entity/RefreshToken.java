@@ -18,4 +18,8 @@ public class RefreshToken {
 
     @Builder.Default
     private Integer refreshCount = 0;
+
+    public void used() {
+        this.refreshCount++;
+    }
 }
