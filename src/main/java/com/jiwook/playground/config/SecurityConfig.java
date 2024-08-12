@@ -35,6 +35,11 @@ public class SecurityConfig {
                 .oauth2Login(oauth -> oauth
                         .loginPage("/login")
                         .userInfoEndpoint(endpoint -> endpoint.userService(userService)))
+                .rememberMe(config -> config
+                        .rememberMeParameter("remember-me")
+                        .tokenValiditySeconds(60 * 60 * 24 * 7)
+                        .alwaysRemember(false)
+                        .userDetailsService(userService))
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
