@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!-- S:navbar -->
+<div th:replace="~{fragmentPage/fragments/navbarFragment.html :: navbar}"></div>
+<!-- E:navbar -->
+<div th:replace="~{fragmentPage/fragments/headerFragment.html :: header}"></div>
+<div>
+  <h3>프래그먼트 본문 영역</h3>
+</div>
+<div th:replace="~{fragmentPage/fragments/footerFragment.html :: footer}"></div>
+</body>
+</html>
